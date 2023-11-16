@@ -1,0 +1,45 @@
+pip install pygame
+import pygame
+import os
+
+class OhimusicPlayer:
+    def __init__(self):
+        pygame.init()
+        pygame.mixer.init()
+        self.playlist = []
+
+    def load_playlist(self, folder_path):
+        self.playlist = [os.path.join(folder_path, file) for file in os.listdir(folder_path) if file.endswith(('.mp3', '.wav'))]
+
+    def play_music(self, index):
+        if 0 <= index < len(self.playlist):
+            pygame.mixer.music.load(self.playlist[index])
+            pygame.mixer.music.play()
+
+    def stop_music(self):
+        pygame.mixer.music.stop()
+
+if __name__ == "__main__":
+    ohimusic = OhimusicPlayer()
+
+    # Change this to the path where your music files are stored
+    music_folder = "/path/to/your/music/folder"
+    ohimusic.load_playlist(music_folder)
+
+    while True:
+        print("Ohimusic Player")
+        print("1. Play")
+        print("2. Stop")
+        print("3. Exit")
+
+        choice = input("Enter your choice: ")
+
+        if choice == "1":
+            index = int(input("Enter the index of the song to play: "))
+            ohimusic.play_music(index)
+        elif choice == "2":
+            ohimusic.stop_music()
+        elif choice == "3":
+            break
+        else:
+            print("Invalid choice. Please enter a valid option.")
